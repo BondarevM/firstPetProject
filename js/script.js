@@ -137,7 +137,7 @@ function showTabContent(i = 0) {
         }
     });
 
-    const modalTimerId = setTimeout(openModal, 50000);
+    const modalTimerId = setTimeout(openModal, 5000000); // вызывает моадльное окно автоматический через n-ое время
 
    function showModalByScroll () {
     if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
@@ -288,4 +288,54 @@ function showTabContent(i = 0) {
     // fetch('http://localhost:3000/menu')
     // .then(data => data.json())
     // .then(res => console.log(res));
+
+    // slider
+
+    const slides = document.querySelectorAll('.offer__slide'),
+          prev = document.querySelector('.offer__slider-prev'),
+          next = document.querySelector('.offer__slider-next'),
+          total = document.querySelectorAll('#total'),
+          current = document.querySelector('#current');
+    let slideIndex = 1;
+
+    showSlides(slideIndex);
+
+    if (slides.length < 10) {
+        total.textContent = `0${slides.length}`;
+    } else {
+        total.textContent = slides.length;
+    }
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            slideIndex = 1;
+        }
+        if (n < 1) {
+            slideIndex = slides.length;
+        }
+
+        slides.forEach(item => item.style.display = 'none');
+
+        slides[slideIndex - 1].style.display = 'block';
+
+        if (slides.length < 10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            total.textContent = slideIndex;
+        }
+
+    }
+
+    function plussSlides(n) {
+        showSlides(slideIndex +=n);
+    }
+
+    prev.addEventListener('click', () => {
+        plussSlides(-1);
+    });
+
+    next.addEventListener('click', () => {
+        plussSlides(+1);
+    });
+
 });
